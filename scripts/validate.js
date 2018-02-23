@@ -1,32 +1,129 @@
 
+var valid = false;
 
 $(document).ready(function(){
 
     var msg = "";
     var money = 0;
     var goodmsgclass = "";
+    var date = "";
 
-    valid = false;
 
-    $("#fname").blur(function(){
-        fname = document.getElementById("fname").value;
-        if (fname != ""){
-            if (!chkfname(fname)){
-                $(this).css({"background-color": "pink", "color": "red"});
+    $("#fname").on({
+        blur:function () {
+            fname = document.getElementById("fname").value;
+            if (fname != ""){
+                if (!chkfname(fname)){
+                    $(this).css({"background-color": "pink", "color": "red"});
+                }
+
             }
+        },
 
+        focus:function(){
+            $(this).css({"background":"#d6dbdf", "color":"black"});
         }
-        // alert(fname);
-        // $(this).css("background", "pink");
     });
 
-    $("#fname").focus(function () {
-       $(this).css({"background":"#d6dbdf", "color":"black"});
+    $("#lname").on({
+        blur:function () {
+            lname = document.getElementById("lname").value;
+            if (lname != ""){
+                if (!chkfname(lname)){
+                    $(this).css({"background-color": "pink", "color": "red"});
+                }
+
+            }
+        },
+
+        focus:function(){
+            $(this).css({"background":"#d6dbdf", "color":"black"});
+        }
+    });
+
+    $("#idnum").on({
+        blur:function () {
+            idnum = document.getElementById("idnum").value;
+            if (idnum != ""){
+                if (!chkid(idnum)){
+                    $(this).css({"background-color": "pink", "color": "red"});
+                }
+
+            }
+        },
+
+        focus:function(){
+            $(this).css({"background":"#d6dbdf", "color":"black"});
+        }
+    });
+
+    $("#phone").on({
+       blur:function () {
+           phone = document.getElementById("phone").value;
+           if (phone != ""){
+               if (!chkphone(phone)){
+                   $(this).css({"background":"pink", "color":"red"});
+               }
+           }
+       },
+
+       focus:function () {
+           $(this).css({"background":"#d6dbdf", "color":"black"});
+       }
+    });
+
+    $("#email").on({
+       blur:function () {
+           email = document.getElementById("email").value;
+           if (email != ""){
+               if (!chkemail(email)){
+                   $(this).css({"background-color":"pink","color":"red"});
+               }
+           }
+       },
+
+       focus:function () {
+           $(this).css({"background":"#d6dbdf", "color":"black"});
+       }
+    });
+
+    $("#ccnum").on({
+        blur: function () {
+            ccnum = document.getElementById("ccnum").value;
+            if (ccnum != ""){
+                if (!chkccnum(ccnum)){
+                    $(this).css({"background-color":"pink","color":"red"});
+                }
+            }
+        },
+
+        focus:function () {
+            $(this).css({"background":"#d6dbdf", "color":"black"});
+        }
+
+
+    });
+
+    $("#date").blur(function(){
+        date = $("#date :selected").text();
+        alert(date);
+    });
+
+    $("radio").on({
+       blur: function () {
+           var typecnt = $(this,":checked").length;
+           if (typecnt === 0){
+               $("#cctype").css("color","red");
+           }
+       } ,
+
+       focus: function () {
+           $(this).css("color","#f1c40f");
+       }
     });
 
     function validate() {
 
-        valid = false;
         // fname = $("fname").text();
         return valid;
     }
@@ -39,16 +136,6 @@ $(document).ready(function(){
         else {
             msg = "The name " + fname + " is not correct format.\n\n" + msg;
             //fname.style.backgroundColor = pink;
-            return false;
-        }
-    }
-
-    function chkphone(phonenum) {
-        var goodphone = phonenum.search(/^\d{3}-\d{3}-\d{4}$/);
-        // alert("goodphone = " + goodphone);
-        if (goodphone == 0) return true;
-        else {
-            msg = "The phone number " + phonenum + " is not formatted correctly.\n\n" + msg;
             return false;
         }
     }
@@ -142,10 +229,6 @@ $(document).ready(function(){
             return false;
         }
         return true;
-    }
-
-    function getdate(thisdate){
-        return document.forms["reg"][5].options[thisdate].text;
     }
 
     function chkccdate(ccm, ccy){
