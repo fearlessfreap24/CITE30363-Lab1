@@ -14,7 +14,6 @@ $(document).ready(function(){
             if (!chkfname(fname)){
                 $(this).css({"background-color": "pink", "color": "red"});
             }
-
         }
         // alert(fname);
         // $(this).css("background", "pink");
@@ -22,6 +21,19 @@ $(document).ready(function(){
 
     $("#fname").focus(function () {
        $(this).css({"background":"#d6dbdf", "color":"black"});
+    });
+
+    $("#lname").blur(function () {
+       lname = document.getElementById("lname").value;
+        if (lname != "") {
+            if (!chkfname(lname)) {
+                $(this).css({"background-color": "pink", "color": "red"});
+            }
+        }
+    });
+
+    $("#lname").focus(function () {
+        $(this).css({"background":"#d6dbdf", "color":"black"});
     });
 
     function validate() {
@@ -174,5 +186,6 @@ $(document).ready(function(){
     }
 
     if (!valid) $("#submit").hide();
+    else $("#submit").show();
 
 });
