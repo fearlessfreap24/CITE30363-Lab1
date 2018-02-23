@@ -1,10 +1,11 @@
 <!DOCTYPE HTML>
 <html lang="EN">
 <head>
-<title>Main Page - Dylan Perez CITE30363 Lab 1</title>
-<meta charset="UTF-8" />
-<link rel="stylesheet" type="text/css" href="css/style.css" />
-<script src="scripts/validate.js"></script>
+    <title>Main Page - Dylan Perez CITE30363 Lab 1</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="scripts/validate.js"></script>
 </head>
 <body>
 <header>
@@ -25,19 +26,19 @@
         <!-- <form id="reg" method="get" action="" onsubmit="return validate()"> -->
             <table>
                 <tr>
-                    <td><label>First Name<span class="asterisk">*</span><br /><input type="text" name="fname" onclick="tb(0)"/></label></td>
-                    <td><label>Last Name<span class="asterisk">*</span><br /><input type="text" name="lname" /></label></td>
+                    <td><label>First Name<span class="asterisk">*</span><br /><input type="text" id="fname" name="fname" onclick="tb(0)"/></label></td>
+                    <td><label>Last Name<span class="asterisk">*</span><br /><input type="text" id="lname" name="lname" /></label></td>
                 </tr>
                 <tr>
-                    <td><label>NCHA ID Number<span class="asterisk">*</span><br /><input type="text" name="id" /></label></td>
-                    <td><label>Phone Number<span class="asterisk">*</span><br /><input type="text" name="phone" /></label></td>
+                    <td><label>NCHA ID Number<span class="asterisk">*</span><br /><input type="text" id="idnum" name="id" /></label></td>
+                    <td><label>Phone Number<span class="asterisk">*</span><br /><input type="text" id="phone" name="phone" /></label></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><label>E-mail Address<span class="asterisk">*</span><br /><input type="text" name="email" size="30" /></label></td>
+                    <td colspan="2"><label>E-mail Address<span class="asterisk">*</span><br /><input type="text" id="email" name="email" size="30" /></label></td>
                 </tr>
                 <tr>
                     <td><label>Show Date<span class="asterisk">*</span><br />
-                        <select name="date">
+                        <select id="date" name="date">
                             <option value="3032018">Mar 3, 2018</option>
                             <option value="3102018">Mar 10, 2018</option>
                             <option value="3172018">Mar 17, 2018</option>
@@ -56,22 +57,22 @@
                     <td colspan="2"><hr />Additional Fees<br /></td>
                 </tr>
                 <tr>
-                    <td><label>Stall Rental - $30<input type="checkbox" name="stall" value="stall" /></label></td>
-                    <td><label>RV Hookup - $35<input type="checkbox" name="rv" value="rv" /></label></td>
+                    <td><label>Stall Rental - $30<input type="checkbox" id="stall" name="stall" value="stall" /></label></td>
+                    <td><label>RV Hookup - $35<input type="checkbox" id="rv" name="rv" value="rv" /></label></td>
                 </tr>
                 <tr>
                     <td colspan="2"><hr />Payment Information<br /></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><label>Credit Card Number<span class="asterisk">*</span><br /><input type="text" name="ccnum" size="30" /></label></td>
+                    <td colspan="2"><label>Credit Card Number<span class="asterisk">*</span><br /><input type="text" id="ccnum" name="ccnum" size="30" /></label></td>
                 </tr>
                 <tr>
                     <td>Card Type<span class="asterisk">*</span><br />
-                        <label id="ccVisa">Visa <input type="radio" name="cctype" value="visa" /></label>
-                        <label id="ccMC">MC <input type="radio" name="cctype" value="mc" /></label>
-                        <label id="ccDisc">Discover <input type="radio" name="cctype" value="disc" /></label></td>
+                        <label id="ccVisa">Visa <input type="radio" id="visa" name="cctype" value="visa" /></label>
+                        <label id="ccMC">MC <input type="radio" id="mc" name="cctype" value="mc" /></label>
+                        <label id="ccDisc">Discover <input type="radio" id="disc" name="cctype" value="disc" /></label></td>
                     <td><label>Exp Date<span class="asterisk">*</span><br />
-                        <select name="ccmonth" size="1">
+                        <select id="ccmonth" name="ccmonth" size="1">
                             <option value="01">01 - Jan</option>
                             <option value="02">02 - Feb</option>
                             <option value="03">03 - Mar</option>
@@ -86,7 +87,7 @@
                             <option value="12">12 - Dec</option>
                         </select></label>
                         /
-                        <label><select name="ccyear" size="1">
+                        <label><select id="ccyear" name="ccyear" size="1">
                             <option value="2018">2018</option>
                             <option value="2019">2019</option>
                             <option value="2020">2020</option>
@@ -95,7 +96,7 @@
                         </select></label></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><hr /><label><input type="submit" value="Submit Registration" /></label> <label><input type="reset" value="Reset Form" /></label></td>
+                    <td colspan="2"><hr /><label><input type="submit" id="submit" value="Submit Registration" /></label> <label><input type="reset" value="Reset Form" /></label></td>
                 </tr>
             </table>
         </form>
