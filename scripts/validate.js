@@ -106,20 +106,21 @@ $(document).ready(function(){
 
     $("#date").blur(function(){
         date = $("#date :selected").text();
-        alert(date);
+        // alert(date);
     });
 
     $("radio").on({
-       blur: function () {
+       focus: function () {
            var typecnt = $(this,":checked").length;
+           alert(typecnt);
            if (typecnt === 0){
                $("#cctype").css("color","red");
            }
        } ,
 
-       focus: function () {
-           $(this).css("color","#f1c40f");
-       }
+       // focus: function () {
+       //     $(this).css("color","#f1c40f");
+       // }
     });
 
     function validate() {
@@ -259,3 +260,9 @@ $(document).ready(function(){
     if (!valid) $("#submit").hide();
 
 });
+
+function validate() {
+
+    // fname = $("fname").text();
+    return valid;
+}
