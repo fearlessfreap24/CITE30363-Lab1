@@ -8,6 +8,9 @@ $(document).ready(function(){
     var goodmsgclass = "";
     var date = "";
 
+    $("#reset").click(function(){
+        $("input").css({"background":"#d6dbdf", "color":"black"});
+    });
 
     $("#fname").on({
         blur:function () {
