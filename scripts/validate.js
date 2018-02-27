@@ -1,6 +1,10 @@
 
 var valid = false;
 
+// 0=fname, 1=lname, 2=idnum, 3=phone, 4=email, 5=class, 6=ccnum, 7=cctype, 8=ccdate
+
+var othertf = [false, false, false, false, false, false, false, false, false];
+
 $(document).ready(function(){
 
     var msg = "";
@@ -8,9 +12,13 @@ $(document).ready(function(){
     var goodmsgclass = "";
     var date = "";
 
+    //reset changes when the reset button is clicked
+
     $("#reset").click(function(){
         $("input").css({"background":"#d6dbdf", "color":"black"});
     });
+
+    //first name = othertf[0]
 
     $("#fname").on({
         blur:function () {
@@ -18,15 +26,20 @@ $(document).ready(function(){
             if (fname != ""){
                 if (!chkfname(fname)){
                     $(this).css({"background-color": "pink", "color": "red"});
+                    othertf[0] = false;
                 }
+                else othertf[0] = true;
 
             }
+            chkotf();
         },
 
         focus:function(){
             $(this).css({"background":"#d6dbdf", "color":"black"});
         }
     });
+
+    //last name = othertf[1]
 
     $("#lname").on({
         blur:function () {
@@ -34,15 +47,19 @@ $(document).ready(function(){
             if (lname != ""){
                 if (!chkfname(lname)){
                     $(this).css({"background-color": "pink", "color": "red"});
+                    othertf[1] = false;
                 }
-
+                else othertf[1] = true;
             }
+            chkotf();
         },
 
         focus:function(){
             $(this).css({"background":"#d6dbdf", "color":"black"});
         }
     });
+
+    //id number
 
     $("#idnum").on({
         blur:function () {
@@ -50,9 +67,11 @@ $(document).ready(function(){
             if (idnum != ""){
                 if (!chkid(idnum)){
                     $(this).css({"background-color": "pink", "color": "red"});
+                    othertf[2] = false
                 }
-
+                else othertf[2] = true;
             }
+            chkotf();
         },
 
         focus:function(){
@@ -60,20 +79,27 @@ $(document).ready(function(){
         }
     });
 
+    //phone number
+
     $("#phone").on({
        blur:function () {
            phone = document.getElementById("phone").value;
            if (phone != ""){
                if (!chkphone(phone)){
                    $(this).css({"background":"pink", "color":"red"});
+                   othertf[3] = false;
                }
+               else othertf[3] = true;
            }
+           chkotf();
        },
 
        focus:function () {
            $(this).css({"background":"#d6dbdf", "color":"black"});
        }
     });
+
+    //email
 
     $("#email").on({
        blur:function () {
@@ -81,8 +107,11 @@ $(document).ready(function(){
            if (email != ""){
                if (!chkemail(email)){
                    $(this).css({"background-color":"pink","color":"red"});
+                   othertf[4] = false;
                }
+               else othertf[4] = true;
            }
+           chkotf()
        },
 
        focus:function () {
@@ -90,14 +119,19 @@ $(document).ready(function(){
        }
     });
 
+    //credit card number
+
     $("#ccnum").on({
         blur: function () {
             ccnum = document.getElementById("ccnum").value;
             if (ccnum != ""){
                 if (!chkccnum(ccnum)){
                     $(this).css({"background-color":"pink","color":"red"});
+                    othertf[6] = false;
                 }
+                else othertf[6] = true;
             }
+            chkotf();
         },
 
         focus:function () {
@@ -107,23 +141,56 @@ $(document).ready(function(){
 
     });
 
+    //date
+
     $("#date").blur(function(){
         date = $("#date :selected").text();
         // alert(date);
     });
 
+    //credit card type
+
     $("input[name='cctype']").on({
        blur: function () {
            var typecnt = $("input[name='cctype']:checked").length;
-           alert(typecnt);
+           // alert(typecnt);
            if (typecnt === 0){
                $(".cctype").css("color","red");
+               othertf[7] = false;
            }
+           else {
+               $(".class").css("color","#f1c40f");
+               othertf[7] = true;
+           }
+           chkotf();
        }
+    });
 
-       // focus: function () {
-       //     $(this).css("color","#f1c40f");
-       // }
+    //class
+
+    $("input[name='class']").on({
+        change: function () {
+            var classchk = $("input[name='class']:checked");
+            var classcnt = classchk.length;
+            //alert(classcnt);
+            if (classcnt == 0 || classcnt > 3){
+                $(".class").css("color","red");
+                othertf[5] = false;
+            }
+            else {
+                $(".class").css("color","#f1c40f");
+                othertf[5] = true;
+            }
+            chkotf();
+        }
+    });
+
+    $(".ccdate").on({
+       change: function () {
+           var ccmonth = $("#ccmonth :selected").val();
+           var ccyear = $("#ccyear :selected").val();
+           alert(ccmonth+" "+ccyear);
+       }
     });
 
     /*
@@ -256,6 +323,7 @@ $(document).ready(function(){
         if (cv || cm || cd) return true;
         else {
             msg = "Credit card type was not selected\n\n" + msg;
+
             return false;
         }
     }
@@ -264,8 +332,17 @@ $(document).ready(function(){
 
 });
 
+function chkotf(){
+    alert(othertf);
+    if (othertf[0] && othertf[1] && othertf[2] && othertf[3] && othertf[4] && othertf[5] && othertf[6] && othertf[7] && othertf[8]){
+        $("#submit").show();
+        return true;
+    }
+    else return false;
+}
+
 function validate() {
 
-    // fname = $("fname").text();
+    valid = chkotf();
     return valid;
 }
