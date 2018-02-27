@@ -112,25 +112,25 @@ $(document).ready(function(){
         // alert(date);
     });
 
-    $("radio").on({
-       focus: function () {
-           var typecnt = $(this,":checked").length;
+    $("input[name='cctype']").on({
+       blur: function () {
+           var typecnt = $("input[name='cctype']:checked").length;
            alert(typecnt);
            if (typecnt === 0){
-               $("#cctype").css("color","red");
+               $(".cctype").css("color","red");
            }
-       } ,
+       }
 
        // focus: function () {
        //     $(this).css("color","#f1c40f");
        // }
     });
 
-    function validate() {
+    /*
 
-        // fname = $("fname").text();
-        return valid;
-    }
+    validation functions
+
+    */
 
     function chkfname(fname) {
         // alert("checkfname function " + fname);
