@@ -185,11 +185,18 @@ $(document).ready(function(){
         }
     });
 
+    //credit card date
+    var ccyear = 0;
+    var ccmonth = 0;
+
     $(".ccdate").on({
        change: function () {
-           var ccmonth = $("#ccmonth :selected").val();
-           var ccyear = $("#ccyear :selected").val();
-           alert(ccmonth+" "+ccyear);
+           ccmonth = $("#ccmonth :selected").index();
+           ccyear = $("#ccyear :selected").index();
+           // alert(ccmonth+" "+ccyear);
+           if (!chkccdate(ccmonth, ccyear)){
+               $(this).css("bacground-color", "red");
+           }
        }
     });
 
@@ -306,11 +313,10 @@ $(document).ready(function(){
         var d = new Date();
         var year = d.getFullYear();
         var month = d.getMonth();
-        var cyear = document.forms["reg"][19].options[ccy].text;
 
         // alert(year + " " + month + " " + cyear + " " + ccm + "\n");
 
-        if (ccm < month && cyear == year) {
+        if (ccm < month && ccy == year) {
             msg = "Credit card date is invalid.\n\n" + msg;
             return false;
         }
