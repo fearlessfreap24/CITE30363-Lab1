@@ -4,6 +4,7 @@ var valid = false;
 // 0=fname, 1=lname, 2=idnum, 3=phone, 4=email, 5=class, 6=ccnum, 7=cctype, 8=ccdate
 
 var othertf = [false, false, false, false, false, false, false, false, false];
+var varsforsub = ["", "", "", "", ""];
 
 $(document).ready(function(){
 
@@ -182,8 +183,10 @@ $(document).ready(function(){
             else {
                 $(".class").css("color","#f1c40f");
                 othertf[5] = true;
+                classmoney = 0;
                 for (var i=0;i<classcnt;i++){
-                    console.log(classchk[i]);
+                    // console.log($(classchk[i]).val());
+                    classmoney += addclass($(classchk[i].val()));
                 }
             }
             chkotf();
@@ -286,6 +289,12 @@ $(document).ready(function(){
     function chkcardtype(cv, cm, cd){
         if (cv || cm || cd) return true;
         else return false;
+    }
+
+    function addclass(classtype) {
+        if (classtype === "open" || classtype === "nonpro") return 300;
+        if (classtype === "25knnp" || classtype === "50kam") return 250;
+        if (classtype === "35knp" || classtype === "15kam") return 150;
     }
 
     if (!valid) $("#submit").hide();
