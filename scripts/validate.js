@@ -7,7 +7,6 @@ var othertf = [false, false, false, false, false, false, false, false, false];
 
 $(document).ready(function(){
 
-    var msg = "";
     var money = 0;
     var goodmsgclass = "";
     var date = "";
@@ -16,13 +15,16 @@ $(document).ready(function(){
 
     $("#reset").click(function(){
         $("input").css({"background":"#d6dbdf", "color":"black"});
+        $(".ccdate").css("background-color","#d6dbdf");
+        $(".class").css("color","#f1c40f");
+        $(".cctype").css("color","#f1c40f");
     });
 
     //first name = othertf[0]
 
     $("#fname").on({
         blur:function () {
-            fname = document.getElementById("fname").value;
+            fname = $(this).val();
             if (fname != ""){
                 if (!chkfname(fname)){
                     $(this).css({"background-color": "pink", "color": "red"});
@@ -43,7 +45,7 @@ $(document).ready(function(){
 
     $("#lname").on({
         blur:function () {
-            lname = document.getElementById("lname").value;
+            lname = $(this).val();
             if (lname != ""){
                 if (!chkfname(lname)){
                     $(this).css({"background-color": "pink", "color": "red"});
@@ -63,7 +65,7 @@ $(document).ready(function(){
 
     $("#idnum").on({
         blur:function () {
-            idnum = document.getElementById("idnum").value;
+            idnum = $(this).val();
             if (idnum != ""){
                 if (!chkid(idnum)){
                     $(this).css({"background-color": "pink", "color": "red"});
@@ -83,7 +85,7 @@ $(document).ready(function(){
 
     $("#phone").on({
        blur:function () {
-           phone = document.getElementById("phone").value;
+           phone = $(this).val();
            if (phone != ""){
                if (!chkphone(phone)){
                    $(this).css({"background":"pink", "color":"red"});
@@ -103,7 +105,7 @@ $(document).ready(function(){
 
     $("#email").on({
        blur:function () {
-           email = document.getElementById("email").value;
+           email = $(this).val();
            if (email != ""){
                if (!chkemail(email)){
                    $(this).css({"background-color":"pink","color":"red"});
@@ -123,7 +125,7 @@ $(document).ready(function(){
 
     $("#ccnum").on({
         blur: function () {
-            ccnum = document.getElementById("ccnum").value;
+            ccnum = $(this).val();
             if (ccnum != ""){
                 if (!chkccnum(ccnum)){
                     $(this).css({"background-color":"pink","color":"red"});
@@ -159,7 +161,7 @@ $(document).ready(function(){
                othertf[7] = false;
            }
            else {
-               $(".class").css("color","#f1c40f");
+               $(".cctype").css("color","#f1c40f");
                othertf[7] = true;
            }
            chkotf();
@@ -169,7 +171,7 @@ $(document).ready(function(){
     //class
 
     $("input[name='class']").on({
-        change: function () {
+        blur: function () {
             var classchk = $("input[name='class']:checked");
             var classcnt = classchk.length;
             //alert(classcnt);
@@ -180,24 +182,47 @@ $(document).ready(function(){
             else {
                 $(".class").css("color","#f1c40f");
                 othertf[5] = true;
+                for (var i=0;i<classcnt;i++){
+                    console.log(classchk[i]);
+                }
             }
             chkotf();
         }
     });
 
     //credit card date
-    var ccyear = 0;
-    var ccmonth = 0;
 
-    $(".ccdate").on({
-       change: function () {
+    $("#ccmonth").on({
+       blur: function () {
            ccmonth = $("#ccmonth :selected").index();
-           ccyear = $("#ccyear :selected").index();
+           ccyear = $("#ccyear :selected").text();
            // alert(ccmonth+" "+ccyear);
            if (!chkccdate(ccmonth, ccyear)){
-               $(this).css("bacground-color", "red");
+               $(".ccdate").css("background-color", "red");
            }
+           else {
+               $(".ccdate").css("background-color","#d6dbdf");
+               othertf[8] = true;
+           }
+           chkotf();
        }
+    });
+
+    $("#ccyear").on({
+        blur: function () {
+            ccmonth = $("#ccmonth :selected").index();
+            ccyear = $("#ccyear :selected").text();
+            // alert(ccmonth+" "+ccyear);
+            if (!chkccdate(ccmonth, ccyear)){
+                $(".ccdate").css("background-color", "red");
+                othertf[8] = false;
+            }
+            else {
+                $(".ccdate").css("background-color","#d6dbdf");
+                othertf[8] = true;
+            }
+            chkotf();
+        }
     });
 
     /*
@@ -211,21 +236,14 @@ $(document).ready(function(){
         var fnamegood = fname.search(/^[A-Z][a-z]+$/);
         // alert("fnamegood = " + fnamegood);
         if (fnamegood == 0) return true;
-        else {
-            msg = "The name " + fname + " is not correct format.\n\n" + msg;
-            //fname.style.backgroundColor = pink;
-            return false;
-        }
+        else return false;
     }
 
     function chkphone(phonenum) {
         var goodphone = phonenum.search(/^\d{3}-\d{3}-\d{4}$/);
         // alert("goodphone = " + goodphone);
         if (goodphone == 0) return true;
-        else {
-            msg = "The phone number " + phonenum + " is not formatted correctly.\n\n" + msg;
-            return false;
-        }
+        else return false;
     }
 
     function chkid(id){
@@ -233,10 +251,7 @@ $(document).ready(function(){
         var goodid = id.search(/^\d{6}$/);
         // alert("goodid " + goodid);
         if (goodid == 0) return true;
-        else {
-            msg = "NCHA ID # " + id + " is invaild\n\n" + msg;
-            return false;
-        }
+        else return false;
     }
 
     function chkemail(email){
@@ -244,10 +259,7 @@ $(document).ready(function(){
         var goodemail = email.search(/^[a-z.-_]{3,}@\w{3,}\.[a-z]{3}$/i);
         // alert("goodemail " + goodemail);
         if (goodemail == 0) return true;
-        else {
-            msg = "The email address " + email + " is not valid\n\n" + msg;
-            return false;
-        }
+        else return false;
     }
 
     function chkccnum(ccnum){
@@ -255,58 +267,7 @@ $(document).ready(function(){
         var goodccnum = ccnum.search(/^\d{16}$/);
         // alert("goodccnum " + goodccnum);
         if (goodccnum == 0) return true;
-        else {
-            msg = "Credit card # " + ccnum + " is invalid\n\n" + msg;
-            return false;
-        }
-    }
-
-    function chkclass(class1, class2,class3,class4,class5,class6){
-        var count = 0;
-        if (class1) {
-            count++;
-            money += 300;
-            goodmsgclass += "\tOpen\n";
-        }
-        if (class2) {
-            count++;
-            money += 300;
-            goodmsgclass += "\tNon-Pro\n";
-        }
-        if (class3) {
-            count++;
-            money += 250;
-            goodmsgclass += "\t25K NNP\n";
-        }
-        if (class4) {
-            count++;
-            money += 250;
-            goodmsgclass += "\t50K Amateur\n";
-        }
-        if (class5) {
-            count++;
-            money += 150;
-            goodmsgclass += "\t35K NP\n";
-        }
-        if (class6) {
-            count++;
-            money += 150;
-            goodmsgclass += "\t15K Amateur\n";
-        }
-
-        // alert("class checks " + count);
-
-        if (count == 0) {
-            msg = "There were no classes selected\n\n" + msg;
-            money = 0;
-            return false;
-        }
-        if (count > 3) {
-            msg = "Too many classes were selected\n\n" + msg;
-            money = 0;
-            return false;
-        }
-        return true;
+        else return false;
     }
 
     function chkccdate(ccm, ccy){
@@ -314,32 +275,33 @@ $(document).ready(function(){
         var year = d.getFullYear();
         var month = d.getMonth();
 
-        // alert(year + " " + month + " " + cyear + " " + ccm + "\n");
+        // alert(year + " " + month + " " + ccy + " " + ccm + "\n");
 
-        if (ccm < month && ccy == year) {
-            msg = "Credit card date is invalid.\n\n" + msg;
-            return false;
-        }
+        if (ccm < month && ccy == year) return false;
 
-        return true;
+        else return true;
 
     }
 
     function chkcardtype(cv, cm, cd){
         if (cv || cm || cd) return true;
-        else {
-            msg = "Credit card type was not selected\n\n" + msg;
-
-            return false;
-        }
+        else return false;
     }
 
     if (!valid) $("#submit").hide();
 
+    // Stall and RV
+
+    var stall = $("#stall :checked");
+    if (stall) money += 30;
+    var rv = $("#rv :checked");
+    if (rv) money += 35;
+    // alert(money);
+
 });
 
 function chkotf(){
-    alert(othertf);
+    // alert(othertf);
     if (othertf[0] && othertf[1] && othertf[2] && othertf[3] && othertf[4] && othertf[5] && othertf[6] && othertf[7] && othertf[8]){
         $("#submit").show();
         return true;
