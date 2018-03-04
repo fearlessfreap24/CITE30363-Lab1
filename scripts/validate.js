@@ -4,12 +4,13 @@ var valid = false;
 // 0=fname, 1=lname, 2=idnum, 3=phone, 4=email, 5=class, 6=ccnum, 7=cctype, 8=ccdate
 
 var othertf = [false, false, false, false, false, false, false, false, false];
-var varsforsub = ["", "", "", "", ""];
+
+// 0=fname, 1=lname, 2=idnum, 3=date, 4=[class], 5=money
+var varsforsub = ["", "", "", "", [], 0];
 
 $(document).ready(function(){
 
     var money = 0;
-    var goodmsgclass = "";
     var date = "";
 
     //reset changes when the reset button is clicked
@@ -31,7 +32,10 @@ $(document).ready(function(){
                     $(this).css({"background-color": "pink", "color": "red"});
                     othertf[0] = false;
                 }
-                else othertf[0] = true;
+                else {
+                    varsforsub[0] = fname;
+                    othertf[0] = true;
+                }
 
             }
             chkotf();
@@ -52,7 +56,10 @@ $(document).ready(function(){
                     $(this).css({"background-color": "pink", "color": "red"});
                     othertf[1] = false;
                 }
-                else othertf[1] = true;
+                else {
+                    varsforsub[1] = lname;
+                    othertf[1] = true;
+                }
             }
             chkotf();
         },
@@ -72,7 +79,10 @@ $(document).ready(function(){
                     $(this).css({"background-color": "pink", "color": "red"});
                     othertf[2] = false
                 }
-                else othertf[2] = true;
+                else {
+                    varsforsub[2] = idnum;
+                    othertf[2] = true;
+                }
             }
             chkotf();
         },
@@ -148,6 +158,7 @@ $(document).ready(function(){
 
     $("#date").blur(function(){
         date = $("#date :selected").text();
+        varsforsub[3] = date;
         // alert(date);
     });
 
@@ -175,20 +186,29 @@ $(document).ready(function(){
         blur: function () {
             var classchk = $("input[name='class']:checked");
             var classcnt = classchk.length;
+            var classmoney = 0;
             //alert(classcnt);
             if (classcnt == 0 || classcnt > 3){
                 $(".class").css("color","red");
+                varsforsub[4] = [];
+                varsforsub[5] = 0;
                 othertf[5] = false;
             }
             else {
                 $(".class").css("color","#f1c40f");
                 othertf[5] = true;
-                classmoney = 0;
+                varsforsub[4] = [];
+                // classmoney = 0;
                 for (var i=0;i<classcnt;i++){
-                    // console.log($(classchk[i]).val());
-                    classmoney += addclass($(classchk[i].val()));
+                    // console.log($(classchk[i]));
+                    classmoney += addclass($(classchk[i]).val());
                 }
+                // console.log(classmoney);
             }
+            for (var i=0; i<varsforsub[4].length; i++){
+                console.log(varsforsub[4][i]);
+            }
+            varsforsub[5] = classmoney;
             chkotf();
         }
     });
@@ -292,9 +312,30 @@ $(document).ready(function(){
     }
 
     function addclass(classtype) {
-        if (classtype === "open" || classtype === "nonpro") return 300;
-        if (classtype === "25knnp" || classtype === "50kam") return 250;
-        if (classtype === "35knp" || classtype === "15kam") return 150;
+        if (classtype === "open") {
+            varsforsub[4].push("Open");
+            return 300;
+        }
+        if (classtype === "nonpro") {
+            varsforsub[4].push("Non-Pro");
+            return 300;
+        }
+        if (classtype === "25knnp") {
+            varsforsub[4].push("25k NNP");
+            return 250;
+        }
+        if (classtype === "50kam") {
+            varsforsub[4].push("50K Amateur");
+            return 250;
+        }
+        if (classtype === "35knp") {
+            varsforsub[4].push("35K NP");
+            return 150;
+        }
+        if (classtype === "15kam") {
+            varsforsub[4].push("15K Amateur");
+            return 150;
+        }
     }
 
     if (!valid) $("#submit").hide();
@@ -321,5 +362,26 @@ function chkotf(){
 function validate() {
 
     valid = chkotf();
+    // 0=fname, 1=lname, 2=idnum, 3=date, 4=[class], 5=money
+    var goodclass = "";
+    for (var i=0; i<varsforsub[4].length; i++){
+        goodclass += "\t-"+varsforsub[4][i]+"\n";
+    }
+    var line1 = varsforsub[0]+" "+varsforsub[1]+", ID Number "+varsforsub[2]+",\nhas registered for event date "+varsforsub[3]+" in the following events:\n";
+    var itemsline = "Additional Items:\n";
+    // var stall = $("#stall :checked");
+    if ($("#stall :checked")) {
+        varsforsub[5] += 30;
+        itemsline += "\t-Stall Rental\n";
+    }
+    // var rv = $("#rv :checked");
+    if ($("#rv :checked")) {
+        varsforsub[5] += 35;
+        itemsline += "\t-RV Hookup\n";
+    }
+    var totalline = "\nTotal Cost:\n"+"\t$"+varsforsub[5];
+
+    alert(line1+goodclass+itemsline+totalline);
+
     return valid;
 }
